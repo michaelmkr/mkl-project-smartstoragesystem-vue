@@ -1,0 +1,64 @@
+#app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+}
+
+/*HEADERBAR*/
+#header{
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    margin: auto;
+}
+#header-logo{
+    height: 100px;
+    width: 15%;
+    background-color: lightblue;
+    float: left;
+}
+#header-spacer{
+    height: 100px;
+    width: 70%;
+    background-color: aqua;
+    float: left;
+}
+#header-hamburger{
+    height: 100px;
+    width: 15%;
+    background-color: darkcyan;
+    float: left;
+}
+/*HEADERBAR*/
+
+
+/*MENU*/
+#menu{
+    height: 100vh;
+    width: 20%;
+    background-color: indianred;
+    position: fixed;
+    right: 0;
+    display: none;
+}
+#menu > ul {
+    text-align: center;
+}
+#menu > ul > li {
+    padding: 10px;
+    font-size: 20px;
+    color: black;
+}
+#menu-close{
+    color: gray;
+    font-size: 25px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+}
+/*MENU*/
+
