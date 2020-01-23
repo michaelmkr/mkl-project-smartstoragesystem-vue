@@ -8,35 +8,39 @@
 }
 
 /*HEADERBAR*/
-#header{
+#header {
     height: 100%;
     width: 100%;
     background-color: grey;
     margin: auto;
 }
-#header-logo{
+
+#header-logo {
     height: 100px;
     width: 15%;
     background-color: lightblue;
     float: left;
 }
-#header-spacer{
+
+#header-spacer {
     height: 100px;
     width: 70%;
     background-color: aqua;
     float: left;
 }
-#header-hamburger{
+
+#header-hamburger {
     height: 100px;
     width: 15%;
     background-color: darkcyan;
     float: left;
 }
+
 /*HEADERBAR*/
 
 
 /*MENU*/
-#menucomponent{
+#menucomponent {
     height: 100vh;
     width: 20%;
     background-color: indianred;
@@ -44,15 +48,18 @@
     right: 0;
     display: none;
 }
+
 #menucomponent > ul {
     text-align: center;
 }
+
 #menucomponent > ul > li {
     padding: 10px;
     font-size: 20px;
     color: black;
 }
-#menuclose{
+
+#menuclose {
     color: gray;
     font-size: 25px;
     position: absolute;
@@ -60,5 +67,70 @@
     left: 10px;
     cursor: pointer;
 }
+
 /*MENU*/
 
+
+/*storeFruits*/
+#return{
+    position: absolute;
+    left: 2vh;
+    top: 50vh;
+    height: 5vh;
+    width: 5vh;
+    background-color: darkolivegreen;
+}
+#next{
+    position: absolute;
+    right: 2vh;
+    top: 50vh;
+    height: 5vh;
+    width: 5vh;
+    background-color: darkolivegreen;
+}
+
+#comment{
+
+}
+
+.card{
+    background-color: darkcyan;
+    color: white;
+}
+
+.card:active{
+    background-color: darkolivegreen;
+    color: black;
+    opacity: 50%;
+}
+
+.fruitTypeDiv {
+    display:inline-block;
+    margin: 3vh 5vh;
+    width: 20vh;
+    height: 25vh;
+}
+
+.fruitTypePicture {
+    height: 80%;
+    width: 100%;
+}
+
+.fruitTypeName {
+    height: 20%;
+    width: 100%;
+}
+
+.amountTypeDiv {
+    display:inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 3vh 5vh;
+    width: 100px;
+    height: 100px;
+}
+
+.hidden{
+    display: none;
+}
+/*storeFruits*/
