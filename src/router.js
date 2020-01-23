@@ -17,7 +17,7 @@ export default new Router({
         },
         {
             path: '/store',
-            name: 'home',
+            name: 'store',
             component: storeFruits,
         },
         ]

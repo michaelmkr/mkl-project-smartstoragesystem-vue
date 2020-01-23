@@ -11,7 +11,7 @@
         name: "headerbar",
         methods: {
             showMenu() {
-                var x = document.getElementById("menu");
+                var x = document.getElementById("menucomponent");
                 x.style.display = "block";
             },
         },

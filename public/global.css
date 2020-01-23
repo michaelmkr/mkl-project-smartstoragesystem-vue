@@ -36,7 +36,7 @@
 
 
 /*MENU*/
-#menu{
+#menucomponent{
     height: 100vh;
     width: 20%;
     background-color: indianred;
@@ -44,15 +44,15 @@
     right: 0;
     display: none;
 }
-#menu > ul {
+#menucomponent > ul {
     text-align: center;
 }
-#menu > ul > li {
+#menucomponent > ul > li {
     padding: 10px;
     font-size: 20px;
     color: black;
 }
-#menu-close{
+#menuclose{
     color: gray;
     font-size: 25px;
     position: absolute;
