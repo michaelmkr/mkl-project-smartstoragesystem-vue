@@ -1,6 +1,7 @@
 <template>
     <div>
-        <h1>This is home.</h1>
+        <h1>Willkommen bei</h1>
+        <img src="../assets/logo.svg" style="height: 30%; width: 30%;">
     </div>
 </template>
 

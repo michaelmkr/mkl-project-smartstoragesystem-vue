@@ -3,15 +3,17 @@
         <button @click="createQR">Create QR Code</button>
         <h1>Einlagern</h1>
 
-        <div @click="goBack" id="return"> back</div>
-        <div @click="goForward" id="next">next</div>
+        <div @click="goBack" id="return"><i class="material-icons">chevron_left</i></div>
+        <div @click="goForward" id="next"><i class="material-icons">chevron_right</i></div>
 
         <div :class="{'hidden': currentStep!==0}" id="fruitTypes">
             <div @click="setFruitType(fruitType)"
                  class="fruitTypeDiv card"
                  v-bind:key="fruitType"
                  v-for="fruitType in fruitTypes">
-                <div class="fruitTypePicture"></div>
+                <div class="fruitTypePicture">
+                    <img v-bind:src="'/public/img/' + fruitType + '.jpg'">
+                </div>
                 <div class="fruitTypeName">{{fruitType}}</div>
             </div>
         </div>
@@ -32,7 +34,6 @@
                     placeholder="Hier können Zusatzinformationen eingegeben werden.."
                     rows="10"
                     v-model="payload.comments"/> </label><br>
-            <button>Speichern</button>
         </div>
 
         <div :class="{'hidden': currentStep!==3}" id="overview">

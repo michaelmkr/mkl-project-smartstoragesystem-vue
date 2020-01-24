@@ -11,28 +11,28 @@
 #header {
     height: 100%;
     width: 100%;
-    background-color: grey;
     margin: auto;
 }
 
 #header-logo {
     height: 100px;
     width: 15%;
-    background-color: lightblue;
     float: left;
+}
+
+#header-logo > img {
+    height: 100px;
 }
 
 #header-spacer {
     height: 100px;
     width: 70%;
-    background-color: aqua;
     float: left;
 }
 
 #header-hamburger {
     height: 100px;
     width: 15%;
-    background-color: darkcyan;
     float: left;
 }
 
@@ -43,10 +43,10 @@
 #menucomponent {
     height: 100vh;
     width: 20%;
-    background-color: indianred;
     position: fixed;
     right: 0;
     display: none;
+    background-color: white;
 }
 
 #menucomponent > ul {
@@ -54,16 +54,21 @@
 }
 
 #menucomponent > ul > li {
-    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#menucomponent > ul > li > a {
     font-size: 20px;
     color: black;
+    text-decoration: none;
 }
 
 #menuclose {
     color: gray;
     font-size: 25px;
     position: absolute;
-    top: 10px;
+    top: 0;
     left: 10px;
     cursor: pointer;
 }
@@ -72,47 +77,54 @@
 
 
 /*storeFruits*/
-#return{
+#return {
     position: absolute;
     left: 2vh;
     top: 50vh;
     height: 5vh;
     width: 5vh;
-    background-color: darkolivegreen;
 }
-#next{
+
+#next {
     position: absolute;
     right: 2vh;
     top: 50vh;
     height: 5vh;
     width: 5vh;
-    background-color: darkolivegreen;
 }
 
-#comment{
+#return:active, #next:active {
+    background-color: whitesmoke;
+}
+
+#comment {
 
 }
 
-.card{
-    background-color: darkcyan;
-    color: white;
+.card {
+    color: black;
 }
 
-.card:active{
+.card:active {
     background-color: darkolivegreen;
     color: black;
     opacity: 50%;
 }
 
 .fruitTypeDiv {
-    display:inline-block;
+    display: inline-block;
     margin: 3vh 5vh;
     width: 20vh;
     height: 25vh;
 }
 
 .fruitTypePicture {
-    height: 80%;
+     height: 80%;
+     width: 100%;
+ }
+
+.fruitTypePicture > img {
+    height: 100%;
     width: 100%;
 }
 
@@ -122,7 +134,7 @@
 }
 
 .amountTypeDiv {
-    display:inline-block;
+    display: inline-block;
     text-align: center;
     vertical-align: middle;
     margin: 3vh 5vh;
@@ -130,7 +142,8 @@
     height: 100px;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
+
 /*storeFruits*/

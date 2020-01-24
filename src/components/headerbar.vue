@@ -1,8 +1,8 @@
 <template>
     <div id="header">
-        <div id="header-logo">logo</div>
-        <div id="header-spacer">spacer</div>
-        <div id="header-hamburger" @click="showMenu()">hamburger</div>
+        <div id="header-logo"><img src="../assets/logo.svg"></div>
+        <div id="header-spacer"></div>
+        <div id="header-hamburger" @click="showMenu()"><i class="material-icons">menu</i></div>
     </div>
 </template>
 
