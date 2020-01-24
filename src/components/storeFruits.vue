@@ -12,7 +12,7 @@
                  v-bind:key="fruitType"
                  v-for="fruitType in fruitTypes">
                 <div class="fruitTypePicture">
-                    <img v-bind:src="'/public/img/' + fruitType + '.jpg'">
+                    <img v-bind:src="'/img/' + fruitType + '.jpg'">
                 </div>
                 <div class="fruitTypeName">{{fruitType}}</div>
             </div>
