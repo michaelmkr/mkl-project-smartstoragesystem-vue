@@ -1,39 +1,66 @@
 <template>
     <div>
         <button @click="createQR">Create QR Code</button>
+        <button @click="saveFirestore">Save To Firestore</button>
         <h1>Einlagern</h1>
 
-        <div @click="goBack" id="return"><i class="material-icons">chevron_left</i></div>
-        <div @click="goForward" id="next"><i class="material-icons">chevron_right</i></div>
+        <md-button @click="goBack" class="md-button" id="return">
+            <md-icon>arrow_back_ios</md-icon>
+        </md-button>
+
+        <md-button @click="goForward" class="md-button" id="next">
+            <md-icon>arrow_forward_ios</md-icon>
+        </md-button>
 
         <div :class="{'hidden': currentStep!==0}" id="fruitTypes">
             <div @click="setFruitType(fruitType)"
                  class="fruitTypeDiv card"
                  v-bind:key="fruitType"
                  v-for="fruitType in fruitTypes">
-                <div class="fruitTypePicture">
-                    <img v-bind:src="'/img/' + fruitType + '.jpg'">
-                </div>
-                <div class="fruitTypeName">{{fruitType}}</div>
+                <md-card>
+                    <md-card-media-cover md-solid>
+                        <md-card-media md-ratio="1:1">
+                            <img v-bind:src="'/img/' + fruitType + '.jpg'">
+                        </md-card-media>
+                        <md-card-area>
+                            <md-card-header>
+                                <span class="md-title">{{fruitType}}</span>
+                            </md-card-header>
+                        </md-card-area>
+                    </md-card-media-cover>
+                </md-card>
+
             </div>
         </div>
 
         <div :class="{'hidden': currentStep!==1}" id="amountTypes">
             <div @click="setAmount(amount)"
-                 class="amountTypeDiv card"
+                 class="fruitTypeDiv card"
                  v-bind:key="amount"
                  v-for="amount in amounts">
-                <p>{{amount}}</p>
+                <md-card>
+                    <md-card-media-cover md-solid>
+                        <md-card-media md-ratio="1:1">
+                            <img src="/img/weight.png">
+                        </md-card-media>
+                        <md-card-area md-ratio="1:1">
+                            <md-card-header>
+                                <span class="md-title">{{amount}}</span>
+                            </md-card-header>
+                        </md-card-area>
+                    </md-card-media-cover>
+                </md-card>
             </div>
         </div>
 
         <div :class="{'hidden': currentStep!==2}" id="comment">
             <h3>Zusatzinformationen:</h3>
-            <label><textarea
-                    cols="60"
-                    placeholder="Hier können Zusatzinformationen eingegeben werden.."
-                    rows="10"
-                    v-model="payload.comments"/> </label><br>
+            <md-field>
+                <md-textarea cols="60"
+                             placeholder="Hier können Zusatzinformationen eingegeben werden.."
+                             rows="10"
+                             v-model="payload.comments"></md-textarea>
+            </md-field>
         </div>
 
         <div :class="{'hidden': currentStep!==3}" id="overview">
@@ -46,29 +73,28 @@
 
         <img :class="{'hidden': currentStep!==4}" id="qrcode" src="">
 
+        <p>ABS: {{this.$store.state.abs}}</p>
     </div>
 </template>
 
 <script>
 
     import {generateQRsrc} from "@/js/qrcode";
-
+    import { mapGetters, mapActions } from 'vuex';
     export default {
         name: "storeFruits",
         data() {
             return {
-                isA: true,
-                isB: false,
                 payload: {
                     fruitType: undefined,
                     amount: undefined,
                     storageDate: this.getDate(),
                     comments: undefined,
                 },
-                fruitTypes: [
+                fruitTypesInComponent: [
                     'Erdbeeren',
                     'Marillen',
-                    'Zwetschken'
+                    'Zwetschken',
                 ],
                 amounts: [
                     3,
@@ -78,9 +104,20 @@
                 currentStep: 0,
             }
         },
+        computed: {
+            ...mapGetters([
+                'fruitTypes',
+            ]),
+        },
         methods: {
+            ...mapActions([
+                'saveToFirestore',
+            ]),
             createQR() {
                 generateQRsrc('qrcode', JSON.stringify(this.payload));
+            },
+            saveFirestore() {
+                this.saveToFirestore(this.payload);
             },
             getDate() {
                 let date = new Date;
@@ -90,6 +127,8 @@
                 this.payload.amount = chosenAmount;
             },
             setFruitType(chosenFruitType) {
+                // eslint-disable-next-line no-console
+                console.log(chosenFruitType)
                 this.payload.fruitType = chosenFruitType;
             },
             goBack() {
