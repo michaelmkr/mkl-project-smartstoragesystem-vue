@@ -23,12 +23,12 @@
 
                 <md-list>
                     <md-list-item>
-                        <md-icon>move_to_inbox</md-icon>
+                        <md-icon>home</md-icon>
                         <router-link class="md-list-item-text" to="/">Home</router-link>
                     </md-list-item>
 
                     <md-list-item>
-                        <md-icon>move_to_inbox</md-icon>
+                        <md-icon>kitchen</md-icon>
                         <router-link class="md-list-item-text" to="/store">Einlagern</router-link>
                     </md-list-item>
 
