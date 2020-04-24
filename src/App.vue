@@ -34,12 +34,7 @@
 
                     <md-list-item>
                         <md-icon>delete</md-icon>
-                        <span class="md-list-item-text">Trash</span>
-                    </md-list-item>
-
-                    <md-list-item>
-                        <md-icon>error</md-icon>
-                        <span class="md-list-item-text">Spam</span>
+                        <span class="md-list-item-text">Lagebestand</span>
                     </md-list-item>
                 </md-list>
             </md-app-drawer>
