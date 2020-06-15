@@ -13,6 +13,7 @@
         </md-button>
 
         <div :class="{'hidden': currentStep!==0}" id="fruitTypes">
+            <prediction-component></prediction-component>
             <div @click="setFruitType(fruitType)"
                  class="fruitTypeDiv card"
                  v-bind:key="fruitType"
@@ -71,18 +72,23 @@
             </div>
         </div>
 
-        <img :class="{'hidden': currentStep!==4}" id="qrcode" src="">
+        <div :class="{'hidden': currentStep!==4}">
+            <img id="qrcode" src="">
+            <button @click="printQR()">Drucken</button>
+        </div>
 
-        <p>ABS: {{this.$store.state.abs}}</p>
     </div>
 </template>
 
 <script>
 
     import {generateQRsrc} from "@/js/qrcode";
-    import { mapGetters, mapActions } from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
+    import PredictionComponent from "@/components/predictionComponent";
+
     export default {
         name: "storeFruits",
+        components: {PredictionComponent},
         data() {
             return {
                 payload: {
@@ -116,6 +122,24 @@
             createQR() {
                 generateQRsrc('qrcode', JSON.stringify(this.payload));
             },
+            printQR() {
+
+                function ImagetoPrint(source) {
+                    return "<html><head><scri" + "pt>function step1(){\n" +
+                        "setTimeout('step2()', 10);}\n" +
+                        "function step2(){window.print();window.close()}\n" +
+                        "</scri" + "pt></head><body onload='step1()'>\n" +
+                        document.getElementById(source).outerHTML + "</body></html>";
+                }
+                function PrintImage(source) {
+                    const Pagelink = "about:blank";
+                    const pwa = window.open(Pagelink, "_new");
+                    pwa.document.open();
+                    pwa.document.write(ImagetoPrint(source));
+                    pwa.document.close();
+                }
+                PrintImage('qrcode');
+            },
             saveFirestore() {
                 this.saveToFirestore(this.payload);
             },
@@ -143,6 +167,8 @@
                     }
                     if (this.currentStep === 3) {
                         generateQRsrc('qrcode', JSON.stringify(this.payload));
+                        this.saveFirestore();
+
                     }
                     this.currentStep += 1;
                 }
