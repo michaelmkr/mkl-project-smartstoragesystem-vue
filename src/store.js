@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-var firebase = require('firebase/app');
+const firebase = require('firebase/app');
 require('firebase/firestore');
 
 const firebaseConfig = {
-    apiKey: "",
+    apiKey: "AIzaSyA7Ce4FSgn-7dj3VrqwyVNpHksfjSWExmQ",
     authDomain: "mkl-smartstoragesystem.firebaseapp.com",
     databaseURL: "https://mkl-smartstoragesystem.firebaseio.com",
     projectId: "mkl-smartstoragesystem",
@@ -61,6 +61,9 @@ export default new Vuex.Store({
     mutations: {
         addProductToProducts(state, payload) {
             state.products.push(payload);
+        },
+        setWeightedFruitTypes(state,payload){
+            state.fruitTypes = payload
         }
     },
 
@@ -80,7 +83,12 @@ export default new Vuex.Store({
                 // eslint-disable-next-line no-console
                 console.error("Error adding document: ", error);
             });
-        }
+        },
+        setFruitTypePredictionWeights({commit, state}, fruitTypes) {
+            commit('setWeightedFruitTypes', fruitTypes)
+            // eslint-disable-next-line no-console
+            console.log(state.fruitTypes)
+        },
     },
 
     strict: process.env.NODE_ENV !== 'production',

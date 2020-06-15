@@ -1,16 +1,20 @@
 <template>
     <div>
-        <button @click="createQR">Create QR Code</button>
-        <button @click="saveFirestore">Save To Firestore</button>
+        <!--        <button @click="createQR">Create QR Code</button>
+                <button @click="saveFirestore">Save To Firestore</button>-->
         <h1>Einlagern</h1>
 
-        <md-button @click="goBack" class="md-button" id="return">
-            <md-icon>arrow_back_ios</md-icon>
-        </md-button>
+        <div :class="{'hidden': currentStep===0}">
+            <md-button @click="goBack" class="md-button" id="return">
+                <md-icon>arrow_back_ios</md-icon>
+            </md-button>
+        </div>
 
-        <md-button @click="goForward" class="md-button" id="next">
-            <md-icon>arrow_forward_ios</md-icon>
-        </md-button>
+        <div :class="{'hidden': currentStep===5}">
+            <md-button @click="goForward" class="md-button" id="next">
+                <md-icon>arrow_forward_ios</md-icon>
+            </md-button>
+        </div>
 
         <div :class="{'hidden': currentStep!==0}" id="fruitTypes">
             <prediction-component></prediction-component>
@@ -74,7 +78,12 @@
 
         <div :class="{'hidden': currentStep!==4}">
             <img id="qrcode" src="">
-            <button @click="printQR()">Drucken</button>
+            <br>
+            <md-button @click="printQR()" class="md-raised md-primary">Drucken</md-button>
+        </div>
+
+        <div :class="{'hidden': currentStep!==5}">
+            <md-button @click="reloadPage()" class="md-raised md-primary">Neustart</md-button>
         </div>
 
     </div>
@@ -97,22 +106,13 @@
                     storageDate: this.getDate(),
                     comments: undefined,
                 },
-                fruitTypesInComponent: [
-                    'Erdbeeren',
-                    'Marillen',
-                    'Zwetschken',
-                ],
-                amounts: [
-                    3,
-                    5,
-                    10
-                ],
                 currentStep: 0,
             }
         },
         computed: {
             ...mapGetters([
                 'fruitTypes',
+                'amounts',
             ]),
         },
         methods: {
@@ -123,7 +123,6 @@
                 generateQRsrc('qrcode', JSON.stringify(this.payload));
             },
             printQR() {
-
                 function ImagetoPrint(source) {
                     return "<html><head><scri" + "pt>function step1(){\n" +
                         "setTimeout('step2()', 10);}\n" +
@@ -131,6 +130,7 @@
                         "</scri" + "pt></head><body onload='step1()'>\n" +
                         document.getElementById(source).outerHTML + "</body></html>";
                 }
+
                 function PrintImage(source) {
                     const Pagelink = "about:blank";
                     const pwa = window.open(Pagelink, "_new");
@@ -138,7 +138,11 @@
                     pwa.document.write(ImagetoPrint(source));
                     pwa.document.close();
                 }
+
                 PrintImage('qrcode');
+            },
+            reloadPage() {
+                this.$router.go();
             },
             saveFirestore() {
                 this.saveToFirestore(this.payload);
@@ -161,14 +165,13 @@
                 }
             },
             goForward() {
-                if (this.currentStep < 4) {
+                if (this.currentStep < 5) {
                     if (this.currentStep === 2) {
                         this.payload.storageDate = this.getDate();
                     }
                     if (this.currentStep === 3) {
                         generateQRsrc('qrcode', JSON.stringify(this.payload));
                         this.saveFirestore();
-
                     }
                     this.currentStep += 1;
                 }
