@@ -65,12 +65,14 @@
                 webcam.update(); // update the webcam frame
                 await this.predict();
                 webcam.stop();
-                // window.requestAnimationFrame(loop);
+                // setTimeout(()=>{window.requestAnimationFrame(this.loop)}, 5000);
             },
             // run the webcam image through the image model
             async predict() {
                 // predict can take in an image, video or canvas html element
                 const prediction = await model.predict(webcam.canvas);
+                // eslint-disable-next-line no-console
+                console.log(prediction);
                 this.setPredictionWeights(prediction);
                 for (let i = 0; i < maxPredictions; i++) {
                     const classPrediction =
@@ -95,7 +97,6 @@
                     orderedFruitTypes.push(orderedPrediction[i].className);
                 }
                 // eslint-disable-next-line no-console
-                console.log(orderedFruitTypes);
                 this.setFruitTypePredictionWeights(orderedFruitTypes);
             }
         }
@@ -105,7 +106,8 @@
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
     // the link to your model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/WfXWOZkec/";
+    // const URL = "https://teachablemachine.withgoogle.com/models/WfXWOZkec/"; // Michi | Serviette
+    const URL = "https://teachablemachine.withgoogle.com/models/IDmpIM8BC/"; // Erdbeere | Marille | Zwetschke
 
     let model, webcam, labelContainer, maxPredictions;
 

@@ -5,7 +5,7 @@ const firebase = require('firebase/app');
 require('firebase/firestore');
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA7Ce4FSgn-7dj3VrqwyVNpHksfjSWExmQ",
+    apiKey: "",
     authDomain: "mkl-smartstoragesystem.firebaseapp.com",
     databaseURL: "https://mkl-smartstoragesystem.firebaseio.com",
     projectId: "mkl-smartstoragesystem",
@@ -34,7 +34,24 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         count: 0,
-        products: [],
+        products: [
+            {
+                product: {
+                    fruitType: 'a',
+                    amount: 5,
+                    storageDate: 45345345,
+                    comments: "bal",
+                }
+            },
+            {
+                product: {
+                    fruitType: 'safsfsa',
+                    amount: 5,
+                    storageDate: 453453,
+                    comments: "basdfsafal",
+                }
+            },
+        ],
         fruitTypes: [
             'Erdbeeren',
             'Marillen',
@@ -54,6 +71,9 @@ export default new Vuex.Store({
         },
         amounts: state => {
             return state.amounts
+        },
+        products: state => {
+            return state.products
         }
     },
 
@@ -64,6 +84,9 @@ export default new Vuex.Store({
         },
         setWeightedFruitTypes(state,payload){
             state.fruitTypes = payload
+        },
+        updateProducts(state, payload){
+            state.products = payload
         }
     },
 
@@ -72,8 +95,6 @@ export default new Vuex.Store({
         // eslint-disable-next-line no-unused-vars
         saveToFirestore({commit, state}, product) {
             commit('addProductToProducts', product)
-            // eslint-disable-next-line no-console
-            console.log(state.products)
             db.collection("products")
                 .add({product})
                 .then(function (docRef) {
@@ -84,11 +105,21 @@ export default new Vuex.Store({
                 console.error("Error adding document: ", error);
             });
         },
-        setFruitTypePredictionWeights({commit, state}, fruitTypes) {
+        setFruitTypePredictionWeights({commit}, fruitTypes) {
             commit('setWeightedFruitTypes', fruitTypes)
-            // eslint-disable-next-line no-console
-            console.log(state.fruitTypes)
         },
+        retrieveProductsCollection({commit, state}) {
+            // retrieve a collection
+            db.collection('products')
+                .orderBy('product.storageDate')
+                .get()
+                .then(querySnapshot => {
+                    const documents = querySnapshot.docs.map(doc => doc.data());
+                    commit('updateProducts', documents);
+                    // eslint-disable-next-line no-console
+                    console.log(state.products)
+                })
+        }
     },
 
     strict: process.env.NODE_ENV !== 'production',

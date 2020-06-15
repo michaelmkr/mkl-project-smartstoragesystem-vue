@@ -33,8 +33,8 @@
                     </md-list-item>
 
                     <md-list-item>
-                        <md-icon>delete</md-icon>
-                        <span class="md-list-item-text">Lagebestand</span>
+                        <md-icon>inbox</md-icon>
+                        <router-link class="md-list-item-text" to="/storage">Lagerbestand</router-link>
                     </md-list-item>
                 </md-list>
             </md-app-drawer>
