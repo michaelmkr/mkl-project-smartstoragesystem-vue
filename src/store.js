@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {generateQRsrc} from "@/js/qrcode";
 
 const firebase = require('firebase/app');
 require('firebase/firestore');
@@ -34,24 +35,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         count: 0,
-        products: [
-            {
-                product: {
-                    fruitType: 'a',
-                    amount: 5,
-                    storageDate: 45345345,
-                    comments: "bal",
-                }
-            },
-            {
-                product: {
-                    fruitType: 'safsfsa',
-                    amount: 5,
-                    storageDate: 453453,
-                    comments: "basdfsafal",
-                }
-            },
-        ],
+        products: [],
         fruitTypes: [
             'Erdbeeren',
             'Marillen',
@@ -62,6 +46,85 @@ export default new Vuex.Store({
             5,
             10
         ],
+        lastId: '',
+        fridges: [
+            {
+                name: 'Links',
+                trays: [
+                    {
+                        name: 'A1',
+                        volume: 20,
+                        free: 8
+                    },
+                    {
+                        name: 'A2',
+                        volume: 20,
+                        free: 16
+                    },
+                    {
+                        name: 'A3',
+                        volume: 20,
+                        free: 4
+                    },
+                    {
+                        name: 'A4',
+                        volume: 20,
+                        free: 17
+                    }
+                ]
+            },
+            {
+                name: 'Mitte',
+                trays: [
+                    {
+                        name: 'B1',
+                        volume: 20,
+                        free: 4
+                    },
+                    {
+                        name: 'B2',
+                        volume: 20,
+                        free: 1
+                    },
+                    {
+                        name: 'B3',
+                        volume: 20,
+                        free: 13
+                    },
+                    {
+                        name: 'B4',
+                        volume: 20,
+                        free: 1
+                    }
+                ]
+            },
+            {
+                name: 'Rechts',
+                trays: [
+                    {
+                        name: 'C1',
+                        volume: 20,
+                        free: 7
+                    },
+                    {
+                        name: 'C2',
+                        volume: 20,
+                        free: 5
+                    },
+                    {
+                        name: 'C3',
+                        volume: 20,
+                        free: 16
+                    },
+                    {
+                        name: 'C4',
+                        volume: 20,
+                        free: 1
+                    }
+                ]
+            }
+
+        ]
     },
 
 
@@ -74,6 +137,12 @@ export default new Vuex.Store({
         },
         products: state => {
             return state.products
+        },
+        lastId: state => {
+            return state.lastId
+        },
+        fridges: state => {
+            return state.fridges
         }
     },
 
@@ -82,12 +151,15 @@ export default new Vuex.Store({
         addProductToProducts(state, payload) {
             state.products.push(payload);
         },
-        setWeightedFruitTypes(state,payload){
+        setWeightedFruitTypes(state, payload) {
             state.fruitTypes = payload
         },
-        updateProducts(state, payload){
+        updateProducts(state, payload) {
             state.products = payload
-        }
+        },
+        updateLastId(state, payload) {
+            state.lastId = payload
+        },
     },
 
 
@@ -105,20 +177,23 @@ export default new Vuex.Store({
                         .then(() => {
                             // eslint-disable-next-line no-console
                             console.log("Document written with ID: ", docRef.id);
+                            commit('updateLastId', docRef.id)
                         })
-
                 }).catch(function (error) {
                 // eslint-disable-next-line no-console
                 console.error("Error adding document: ", error);
             });
         },
-        addIdToFirestoreProduct(id){
-            db.collection('users')
-                .doc(id)
-                .update({id: id})
-                .then(() => {
+        getFirestoreDocument({state}) {
+            db.collection('products')
+                .doc(state.lastId)
+                .get()
+                .then(snapshot => {
+                    const document = snapshot.data();
                     // eslint-disable-next-line no-console
-                    console.log('updated!')
+                    console.log(document)
+                    generateQRsrc('qrcode', JSON.stringify(document));
+                    return document;
                 })
         },
         setFruitTypePredictionWeights({commit}, fruitTypes) {

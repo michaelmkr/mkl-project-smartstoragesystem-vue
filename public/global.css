@@ -142,4 +142,31 @@
     border: 1px solid green;
 }
 
+#fridges{
+    margin: auto;
+    width: 50%;
+    height: 50%;
+    align-content: center;
+}
+
+.fridges {
+    width: 33%;
+    float: left;
+    padding: 10px;
+}
+
+.fridges table{
+    border: 1px solid black;
+}
+
+.fridges td{
+    border: 1px solid black;
+    height: 50px;
+    width: 150px;
+}
+
+.recommendedStorage{
+    border: 1px solid red!important;
+}
+
 /*storeFruits*/
