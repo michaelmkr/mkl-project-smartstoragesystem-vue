@@ -16,8 +16,6 @@
     export default {
         name: "predictionComponent",
         mounted: function () {
-            this.init();
-            this.showLoader();
         },
         computed: {
             ...mapGetters([

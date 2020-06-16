@@ -1,29 +1,31 @@
 <template>
     <div>
-        <!--        <button @click="createQR">Create QR Code</button>
-                <button @click="saveFirestore">Save To Firestore</button>-->
         <h1>Einlagern</h1>
 
-        <div :class="{'hidden': currentStep===0}">
+        <div :class="{'hidden': currentStep===-1}">
             <md-button @click="goBack" class="md-button" id="return">
                 <md-icon>arrow_back_ios</md-icon>
             </md-button>
         </div>
 
-        <div :class="{'hidden': currentStep===5}">
+        <div :class="{'hidden': currentStep===6}">
             <md-button @click="goForward" class="md-button" id="next">
                 <md-icon>arrow_forward_ios</md-icon>
             </md-button>
         </div>
 
+        <div :class="{'hidden': currentStep!==-1}" style="padding-top: 15%">
+            <p>Bitte legen Sie die Ware auf die Waage und klicken Sie danach auf weiter!</p>
+        </div>
+
         <div :class="{'hidden': currentStep!==0}" id="fruitTypes">
-            <prediction-component></prediction-component>
+            <prediction-component ref="predictionComponent"></prediction-component>
             <div @click="setFruitType(fruitType)"
                  class="fruitTypeDiv card"
                  v-bind:key="fruitType"
                  v-for="fruitType in fruitTypes">
                 <md-card>
-                    <md-card-media-cover md-solid>
+                    <md-card-media-cover md-solid :class="{'chosenClass': payload.fruitType === fruitType}">
                         <md-card-media md-ratio="1:1">
                             <img v-bind:src="'/img/' + fruitType + '.jpg'">
                         </md-card-media>
@@ -44,7 +46,7 @@
                  v-bind:key="amount"
                  v-for="amount in amounts">
                 <md-card>
-                    <md-card-media-cover md-solid>
+                    <md-card-media-cover md-solid :class="{'chosenClass': payload.amount === amount}">
                         <md-card-media md-ratio="1:1">
                             <img src="/img/weight.png">
                         </md-card-media>
@@ -71,8 +73,8 @@
         <div :class="{'hidden': currentStep!==3}" id="overview">
             <div class="amountTypeDiv card"
                  v-bind:key="value"
-                 v-for="value in payload">
-                <p>{{ value }}</p>
+                 v-for="(value, key) in payload">
+                <p>{{key}}: {{ value }}</p>
             </div>
         </div>
 
@@ -83,6 +85,10 @@
         </div>
 
         <div :class="{'hidden': currentStep!==5}">
+            <md-button @click="reloadPage()" class="md-raised md-primary">LAGERVORSCHLAG</md-button>
+        </div>
+
+        <div :class="{'hidden': currentStep!==6}">
             <md-button @click="reloadPage()" class="md-raised md-primary">Neustart</md-button>
         </div>
 
@@ -106,7 +112,7 @@
                     storageDate: this.getDate(),
                     comments: undefined,
                 },
-                currentStep: 0,
+                currentStep: -1,
             }
         },
         computed: {
@@ -160,12 +166,16 @@
                 this.payload.fruitType = chosenFruitType;
             },
             goBack() {
-                if (this.currentStep > 0) {
+                if (this.currentStep > -1) {
                     this.currentStep -= 1;
                 }
             },
             goForward() {
-                if (this.currentStep < 5) {
+                if (this.currentStep < 6) {
+                    if (this.currentStep === -1) {
+                        this.$refs.predictionComponent.init();
+                        this.$refs.predictionComponent.showLoader();
+                    }
                     if (this.currentStep === 2) {
                         this.payload.storageDate = this.getDate();
                     }
@@ -174,6 +184,8 @@
                         this.saveFirestore();
                     }
                     this.currentStep += 1;
+                    // eslint-disable-next-line no-console
+                    console.log(this.currentStep)
                 }
             },
         }
