@@ -138,4 +138,8 @@
     display: none;
 }
 
+.chosenClass {
+    border: 1px solid green;
+}
+
 /*storeFruits*/
