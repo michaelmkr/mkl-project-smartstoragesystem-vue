@@ -96,14 +96,30 @@ export default new Vuex.Store({
         saveToFirestore({commit, state}, product) {
             commit('addProductToProducts', product)
             db.collection("products")
-                .add({product})
+                .add(product)
                 .then(function (docRef) {
-                    // eslint-disable-next-line no-console
-                    console.log("Document written with ID: ", docRef.id);
+                    // update the document with the generated ID
+                    db.collection('products')
+                        .doc(docRef.id)
+                        .update({id: docRef.id})
+                        .then(() => {
+                            // eslint-disable-next-line no-console
+                            console.log("Document written with ID: ", docRef.id);
+                        })
+
                 }).catch(function (error) {
                 // eslint-disable-next-line no-console
                 console.error("Error adding document: ", error);
             });
+        },
+        addIdToFirestoreProduct(id){
+            db.collection('users')
+                .doc(id)
+                .update({id: id})
+                .then(() => {
+                    // eslint-disable-next-line no-console
+                    console.log('updated!')
+                })
         },
         setFruitTypePredictionWeights({commit}, fruitTypes) {
             commit('setWeightedFruitTypes', fruitTypes)
@@ -111,7 +127,6 @@ export default new Vuex.Store({
         retrieveProductsCollection({commit, state}) {
             // retrieve a collection
             db.collection('products')
-                .orderBy('product.storageDate')
                 .get()
                 .then(querySnapshot => {
                     const documents = querySnapshot.docs.map(doc => doc.data());
