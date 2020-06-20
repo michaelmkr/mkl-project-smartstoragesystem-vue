@@ -127,7 +127,7 @@
             return {
                 payload: {
                     fruitType: undefined,
-                    amount: 5,
+                    amount: undefined,
                     storageDate: this.getDate(),
                     comments: undefined,
                 },
