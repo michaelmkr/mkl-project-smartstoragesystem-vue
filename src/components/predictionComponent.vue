@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="hidden">Teachable Machine Image Model</div>
-        <!--        <button type="button" onclick="this.init">Start</button>-->
         <div class="hidden" id="webcam-container"></div>
         <div class="hidden" id="label-container"></div>
     </div>
